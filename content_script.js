@@ -57,11 +57,11 @@
         proxy(EventTarget.prototype, 'addEventListener', (target, thisArg, args) => {
             const [type, listener] = args;
 
-            if (thisArg == null || !(thisArg instanceof MediaKeySession) || typeof MediaKeyMessageEvent === 'undefined' || type !== "message" || !listener) {
+            if (thisArg == null || typeof MediaKeySession === 'undefined' || !(thisArg instanceof MediaKeySession) || typeof MediaKeyMessageEvent === 'undefined' || type !== "message" || !listener) {
                 return target.apply(thisArg, args);
             }
 
-            args[1] = async function (event) {
+            args[1] = async function(event) {
                 if (event instanceof MediaKeyMessageEvent && event.isTrusted && event.message.byteLength > 2) {
                     const oldChallenge = b64.encode(event.message);
                     const newChallenge = await emitAndWaitForResponse("REQUEST", oldChallenge);
@@ -101,7 +101,7 @@
         });
     }
 
-    proxy(XMLHttpRequest.prototype, "open", (target, thisArg, args) => {
+    proxy(XMLHttpRequest.prototype,  "open", (target, thisArg, args) => {
         const [method, url] = args;
 
         thisArg.requestMethod = method.toUpperCase();
