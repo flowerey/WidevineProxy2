@@ -1,134 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WidevineProxy2</title>
+
+<head>
+    <title>WidevineProxy</title>
+    <meta charset="UTF-8">
     <script type="module" src="panel.js" defer></script>
-    <link rel="stylesheet" href="panel.css" />
-  </head>
+    <link rel="stylesheet" href="panel.css">
+</head>
 
-  <body>
-    <header class="header">
-      <img src="../images/icon-128.png" alt="WidevineProxy Icon" width="64" />
-      <img id="textImage" src="../images/proxy_text.png" alt="ProxyText" />
-    </header>
+<body>
 
-    <main id="app">
-      <!-- Settings Card -->
-      <section class="card">
-        <h2 class="card-title">Settings</h2>
-        <div id="settings">
-          <div class="form-group">
-            <label for="enabled">Enable Proxy</label>
-            <label class="switch">
-              <input type="checkbox" id="enabled" />
-              <span class="slider"></span>
+    <div class="header">
+        <img src="../images/icon-128.png" alt="WidevineProxy Icon" width="48" height="48" />
+        <img id="textImage" src="../images/proxy_text.png" alt="ProxyText" width="150" />
+    </div>
+
+    <fieldset>
+        <legend>Settings</legend>
+        <div id="settings-grid">
+            <label>
+                <span class="switch">
+                    <input type="checkbox" id="enabled">
+                    <span class="slider"></span>
+                </span>
+                Enabled
             </label>
-          </div>
-          <div class="form-group">
-            <label for="darkModeToggle">Dark Mode</label>
-            <label class="switch">
-              <input type="checkbox" id="darkModeToggle" />
-              <span class="slider"></span>
+            <label>
+                <span class="switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </span>
+                Dark Mode
             </label>
-          </div>
-
-          <div id="type-select-container">
-            <p class="card-title" style="margin-top: 12px; font-size: 0.8rem">
-              Device Type
-            </p>
-            <div class="horizontal-groups">
-              <label class="radio-group">
-                <input
-                  type="radio"
-                  id="wvd_select"
-                  name="cdm_type"
-                  value="wvd"
-                />
-                Widevine Device
-              </label>
-              <label class="radio-group">
-                <input
-                  type="radio"
-                  id="remote_select"
-                  name="cdm_type"
-                  value="remote"
-                />
-                Remote CDM
-              </label>
+            <div>
+                <label for="wvd_select">
+                    <input type="radio" id="wvd_select" name="cdm_type" value="wvd">
+                    Widevine Device
+                </label>
+                <label for="remote_select">
+                    <input type="radio" id="remote_select" name="cdm_type" value="remote">
+                    Remote CDM
+                </label>
             </div>
-          </div>
+            <div>
+                <label for="use-shaka">
+                    <input type="checkbox" id="use-shaka">
+                    Use Shaka Packager
+                </label>
+                <label for="downloader-name" style="grid-column: span 2;">
+                    <input type="text" id="downloader-name" placeholder="Executable name">
+                </label>
+            </div>
         </div>
-      </section>
+    </fieldset>
 
-      <!-- Device Card -->
-      <section class="card" id="wvd">
-        <h2 class="card-title">Widevine Device</h2>
-        <div class="form-group">
-          <select id="wvd-combobox"></select>
+    <fieldset id="wvd">
+        <legend>Widevine Device</legend>
+        <div class="button-group">
+            <button type="button" id="fileInput">Choose File</button>
+            <button type="button" id="remove">Remove</button>
+            <button type="button" id="download">Download</button>
         </div>
-        <div class="horizontal-groups">
-          <button type="button" id="fileInput">Import</button>
-          <button type="button" id="download">Download</button>
-          <button type="button" id="remove">Remove</button>
-        </div>
-      </section>
+        <select id="wvd-combobox"></select>
+    </fieldset>
 
-      <!-- Remote CDM Card -->
-      <section class="card" id="remote">
-        <h2 class="card-title">Remote CDM</h2>
-        <div class="form-group">
-          <select id="remote-combobox"></select>
+    <fieldset id="remote">
+        <legend>Remote CDM</legend>
+        <div class="button-group">
+            <button type="button" id="remoteInput">Choose remote.json</button>
+            <button type="button" id="remoteRemove">Remove</button>
+            <button type="button" id="remoteDownload">Download</button>
         </div>
-        <div class="horizontal-groups">
-          <button type="button" id="remoteInput">Import</button>
-          <button type="button" id="remoteDownload">Download</button>
-          <button type="button" id="remoteRemove">Remove</button>
-        </div>
-      </section>
+        <select id="remote-combobox"></select>
+    </fieldset>
 
-      <!-- Command Options Card -->
-      <section class="card" id="command-options">
-        <h2 class="card-title">Command Options</h2>
-        <div class="form-group">
-          <label for="use-shaka">Use Shaka Packager</label>
-          <label class="switch">
-            <input type="checkbox" id="use-shaka" />
-            <span class="slider"></span>
-          </label>
-        </div>
-        <div
-          class="form-group"
-          style="flex-direction: column; align-items: flex-start"
-        >
-          <label for="downloader-name">Executable Name</label>
-          <input type="text" class="text-box" id="downloader-name" />
-        </div>
-        <div
-          class="form-group"
-          style="flex-direction: column; align-items: flex-start"
-        >
-          <label for="downloader-args">Additional Arguments</label>
-          <input type="text" class="text-box" id="downloader-args" />
-        </div>
-      </section>
-
-      <!-- Tools Card -->
-      <section class="card">
-        <h2 class="card-title">System Tools</h2>
-        <div class="horizontal-groups">
-          <button type="button" id="exportLogs">Export Logs</button>
-          <button type="button" id="clearLogs">Clear Logs</button>
-        </div>
-      </section>
-
-      <!-- Keys Card -->
-      <section class="card">
-        <h2 class="card-title">Graphed Keys</h2>
-        <button type="button" id="clear">Clear All Keys</button>
+    <fieldset>
+        <legend>Logs</legend>
+        <button type="button" id="clear">Clear All Logs</button>
         <div id="key-container"></div>
-      </section>
-    </main>
-  </body>
+        <button type="button" id="exportLogs" style="margin-top: 0.5rem; width: 100%;">Export Logs as JSON</button>
+    </fieldset>
+
+</body>
+
 </html>
